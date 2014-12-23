@@ -10,7 +10,6 @@ service supervisor restart
 echo 'Setting up new user and area for MCServer'
 password=$(head -c 9 < /dev/urandom | base64)
 useradd -m -p $password minecraft
-
 usermod -d /minecraft -m minecraft
 
 # Download the intial version of MCServer.
@@ -23,9 +22,19 @@ su minecraft -c 'echo stop | ./MCServer'
 su minecraft -c "sed -i -e 's/; \[User:admin\]/[User:admin]/' -e 's/; Password=admin/Password=$password/' webadmin.ini"
 
 # Setting up the supervisor.
+cat > /minecraft/startmcs.sh <<EOF
+#!/bin/sh
+
+cd /minecraft
+./MCServer
+EOF
+chown minecraft /minecraft/startmcs.sh
+su minecraft -c 'chmod +x /minecraft/startmcs.sh'
+
 cat > /etc/supervisor/conf.d/mcserver.conf <<EOF
 [program:mcserver]
-command=cd /minecraft; ./MCServer
+command=/minecraft/startmcs.sh
+user=minecraft
 autostart=true
 autorestart=true
 stderr_logfile=/var/log/mcserver.log
