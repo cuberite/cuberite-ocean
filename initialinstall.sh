@@ -43,6 +43,17 @@ EOF
 supervisorctl reread
 supervisorctl update
 
+# Add crontab entry for updater.
+mv /tmp/mcserver-ocean/update.sh /minecraft/update.sh
+chown minecraft /minecraft/update.sh
+TMPFILE='mktemp /tmp/example.XXXXXXXXXX'
+su minecraft -c "crontab -l > $TMPFILE"
+mins=$[ RANDOM % 60 ]
+hours=$[ RANDOM % 24 ]
+echo "$mins $hours * * * /minecraft/update.sh" >> $TMPFILE
+su minecraft -c "crontab $TMPFILE"
+rm $TMPFILE
+
 # Create temporary webpage.
 externip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 cd /tmp/mcserver-ocean/
