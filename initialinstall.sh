@@ -24,7 +24,7 @@ su minecraft -c "sed -i -e 's/; \[User:admin\]/[User:admin]/' -e 's/; Password=a
 
 # Setting up the supervisor.
 cat > /etc/supervisor/conf.d/mcserver.conf <<EOF
-[program:long_script]
+[program:mcserver]
 command=cd /minecraft; ./MCServer
 autostart=true
 autorestart=true
