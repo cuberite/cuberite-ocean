@@ -3,7 +3,6 @@
 # Installing dependencies.
 echo 'Updating packages and installing dependencies'
 apt-get update
-apt-get dist-upgrade -y
 apt-get install curl screen supervisor netcat-traditional -y
 service supervisor restart
 
