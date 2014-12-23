@@ -4,7 +4,7 @@
 echo 'Updating packages and installing dependencies'
 apt-get update
 apt-get dist-upgrade -y
-apt-get install curl screen supervisor nohup netcat-traditional -y
+apt-get install curl screen supervisor netcat-traditional -y
 service supervisor restart
 
 # Add a new user for all Minecraft stuff.
@@ -12,8 +12,6 @@ echo 'Setting up new user and area for MCServer'
 password=$(head -c 9 < /dev/urandom | base64)
 useradd -m -p $password minecraft
 
-mkdir /minecraft
-chown minecraft /minecraft
 usermod -d /minecraft -m minecraft
 
 # Download the intial version of MCServer.
