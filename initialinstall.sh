@@ -9,7 +9,9 @@ service supervisor restart
 # Add a new user for all Minecraft stuff.
 echo 'Setting up new user and area for MCServer'
 password=$(head -c 9 < /dev/urandom | base64)
-useradd -m -p $password minecraft
+salt=$(head -c 6 < /dev/urandom | base64)
+crypted=$(perl -e 'print crypt($ARGV[0], $ARGV[1])' $password $salt)
+useradd -m -p $crypted minecraft
 usermod -d /minecraft -m minecraft
 
 # Download the intial version of MCServer.
