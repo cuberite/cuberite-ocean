@@ -18,9 +18,16 @@ echo 'Installing MCServer'
 su minecraft -c 'cd /tmp; curl -s https://raw.githubusercontent.com/mc-server/MCServer/master/easyinstall.sh | sh'
 su minecraft -c 'mv /tmp/MCServer/* /minecraft'
 rmdir /tmp/MCServer
+
+# Set up WebAdmin.
 cd /minecraft
 su minecraft -c 'echo stop | ./MCServer'
 su minecraft -c "sed -i -e 's/; \[User:admin\]/[User:admin]/' -e 's/; Password=admin/Password=$password/' webadmin.ini"
+
+# Set up automatic slots.
+#  There is 1 slot per 64 megabytes of ram allocated to the server.
+slots=$[ $(grep MemTotal /proc/meminfo | awk '{print $2}') / 65536 ]
+sed -i "s/MaxPlayers=100/MaxPlayers=$slots/" settings.ini
 
 # Setting up the supervisor.
 cat > /minecraft/startmcs.sh <<EOF
