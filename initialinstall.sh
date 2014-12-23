@@ -17,8 +17,8 @@ usermod -d /minecraft -m minecraft
 # Download the intial version of MCServer.
 echo 'Installing MCServer'
 su minecraft -c 'cd /tmp; curl -s https://raw.githubusercontent.com/mc-server/MCServer/master/easyinstall.sh | sh'
-su minecraft -c 'mv MCServer/* /minecraft'
-rmdir MCServer
+su minecraft -c 'mv /tmp/MCServer/* /minecraft'
+rmdir /tmp/MCServer
 cd /minecraft
 su minecraft -c 'echo stop | ./MCServer'
 su minecraft -c "sed -i -e 's/; \[User:admin\]/[User:admin]/' -e 's/; Password=admin/Password=$password/' webadmin.ini"
@@ -52,4 +52,5 @@ This page will self-destruct when you leave it, so please note down this informa
 </html>
 EOF
 
+cd /tmp/mcserver-ocean/
 nohup nc.traditional -e 'webscript.sh' -l -p 80 &
