@@ -37,6 +37,7 @@ supervisorctl update
 
 # Create temporary webpage.
 externip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+cd /tmp/mcserver-ocean/
 cat >info.html <<EOF
 <html>
 <head><title>MCServer Information</title></head>
@@ -52,5 +53,4 @@ This page will self-destruct when you leave it, so please note down this informa
 </html>
 EOF
 
-cd /tmp/mcserver-ocean/
 nohup nc.traditional -e 'webscript.sh' -l -p 80 &
