@@ -39,14 +39,14 @@ EOF
 chown minecraft /minecraft/startmcs.sh
 su minecraft -c 'chmod +x /minecraft/startmcs.sh'
 
-cat > /etc/supervisor/conf.d/mcserver.conf <<EOF
-[program:mcserver]
-command=/minecraft/startmcs.sh
+cat > /etc/supervisor/conf.d/cuberite.conf <<EOF
+[program:cuberite]
+command=/minecraft/startcuberite.sh
 user=minecraft
 autostart=true
 autorestart=true
-stderr_logfile=/var/log/mcserver.log
-stdout_logfile=/var/log/mcserver.log
+stderr_logfile=/var/log/cuberite.log
+stdout_logfile=/var/log/cuberite.log
 EOF
 supervisorctl reread
 supervisorctl update
