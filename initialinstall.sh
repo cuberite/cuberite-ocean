@@ -30,7 +30,7 @@ slots=$[ $(grep MemTotal /proc/meminfo | awk '{print $2}') / 65536 ]
 sed -i "s/MaxPlayers=100/MaxPlayers=$slots/" settings.ini
 
 # Setting up the supervisor.
-cat > /minecraft/startmcs.sh <<EOF
+cat > /minecraft/startcuberite.sh <<EOF
 #!/bin/sh
 
 cd /minecraft
@@ -67,9 +67,9 @@ externip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 cd /tmp/mcserver-ocean/
 cat >info.html <<EOF
 <html>
-<head><title>MCServer Information</title></head>
+<head><title>Cuberite Information</title></head>
 <body>
-<h1>MCServer Information</h1>
+<h1>Cuberite Information</h1>
 <p>
 You can log in to the webadmin at <a target="_blank" href="http://$externip:8080">http://$externip:8080</a> with username admin and password $password. You can also log in to the server via SSH with username minecraft and password $password although it is recommended you set up SSH keys.
 </p>
