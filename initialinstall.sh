@@ -7,14 +7,14 @@ apt-get install curl screen supervisor netcat-traditional -y
 service supervisor restart
 
 # Add a new user for all Minecraft stuff.
-echo 'Setting up new user and area for MCServer'
+echo 'Setting up new user and area for Cuberite'
 password=$(head -c 9 < /dev/urandom | base64)
 useradd -m minecraft -s /bin/bash
 echo "minecraft:$password" | chpasswd
 usermod -d /minecraft -m minecraft
 
 # Download the intial version of MCServer.
-echo 'Installing MCServer'
+echo 'Installing Cuberite'
 su minecraft -c 'cd /tmp; curl -s https://raw.githubusercontent.com/mc-server/MCServer/master/easyinstall.sh | sh'
 su minecraft -c 'mv /tmp/MCServer/* /minecraft'
 rmdir /tmp/MCServer
@@ -36,8 +36,8 @@ cat > /minecraft/startcuberite.sh <<EOF
 cd /minecraft
 ./MCServer
 EOF
-chown minecraft /minecraft/startmcs.sh
-su minecraft -c 'chmod +x /minecraft/startmcs.sh'
+chown minecraft /minecraft/startcuberite.sh
+su minecraft -c 'chmod +x /minecraft/startcuberite.sh'
 
 cat > /etc/supervisor/conf.d/cuberite.conf <<EOF
 [program:cuberite]
@@ -52,7 +52,7 @@ supervisorctl reread
 supervisorctl update
 
 # Add crontab entry for updater.
-mv /tmp/mcserver-ocean/update.sh /minecraft/update.sh
+mv /tmp/cuberite-ocean/update.sh /minecraft/update.sh
 chown minecraft /minecraft/update.sh
 TMPFILE=$(su minecraft -c 'mktemp /tmp/example.XXXXXXXXXX')
 su minecraft -c "crontab -l > $TMPFILE"
@@ -64,7 +64,7 @@ rm $TMPFILE
 
 # Create temporary webpage.
 externip=$(dig +short myip.opendns.com @resolver1.opendns.com)
-cd /tmp/mcserver-ocean/
+cd /tmp/cuberite-ocean/
 cat >info.html <<EOF
 <html>
 <head><title>Cuberite Information</title></head>
