@@ -13,15 +13,15 @@ useradd -m minecraft -s /bin/bash
 echo "minecraft:$password" | chpasswd
 usermod -d /minecraft -m minecraft
 
-# Download the intial version of MCServer.
+# Download the intial version of Cuberite.
 echo 'Installing Cuberite'
-su minecraft -c 'cd /tmp; curl -s https://raw.githubusercontent.com/mc-server/MCServer/master/easyinstall.sh | sh'
-su minecraft -c 'mv /tmp/MCServer/* /minecraft'
-rmdir /tmp/MCServer
+su minecraft -c 'cd /tmp; curl -s https://raw.githubusercontent.com/cuberite/cuberite/master/easyinstall.sh | sh'
+su minecraft -c 'mv /tmp/Server/* /minecraft'
+rmdir /tmp/Server
 
 # Set up WebAdmin.
 cd /minecraft
-su minecraft -c 'echo stop | ./MCServer'
+su minecraft -c 'echo stop | ./Cuberite'
 su minecraft -c "sed -i -e 's/; \[User:admin\]/[User:admin]/' -e 's/; Password=admin/Password=$password/' webadmin.ini"
 
 # Set up automatic slots.
@@ -34,7 +34,7 @@ cat > /minecraft/startcuberite.sh <<EOF
 #!/bin/sh
 
 cd /minecraft
-./MCServer
+./Cuberite
 EOF
 chown minecraft /minecraft/startcuberite.sh
 su minecraft -c 'chmod +x /minecraft/startcuberite.sh'
